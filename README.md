@@ -1,1 +1,4 @@
-学生继承管理系统
+- Springboot：后端
+- vue：前端 那个modules 因为我用的是mac 可能需要你删了 然后重新 npm install
+- database：先建一个数据库，我叫student，然后创建四个表。建表语句在sql里
+- files里面是用户上传的头像
