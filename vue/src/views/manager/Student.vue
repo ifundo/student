@@ -12,7 +12,12 @@
       </div>
         <div>
           <el-table :data="data.tableData" style="width: 100%">
-            <el-table-column prop="id" label="序号" width="80"/>
+<!--            <el-table-column prop="id" label="序号" width="80"/>-->
+            <el-table-column type="index" label="序号" width="80" align="center" >
+              <template v-slot="{ $index }">
+                {{ ($index + 1) + (data.pageNum - 1) * data.pageSize }}
+              </template>
+            </el-table-column>
             <el-table-column prop="username" label="学生账号"/>
 <!--            <el-table-column prop="password" label="学生密码"/>-->
             <el-table-column prop="name" label="学生名称"/>
@@ -96,20 +101,22 @@ import {ElMessage, ElMessageBox} from "element-plus";
 const data = reactive({
   username: '',
   name: '',
+  role: 'STUDENT',
   tableData: [],
   total: 0,
   pageNum: 1,   //每页个数
-  pageSize: 3,  //当前页码
+  pageSize: 8,  //当前页码
   formVisible: false,
   form:{},
 })
 const load = () =>{
-  request.get('/student/selectPage', {
+  request.get('/account/selectPage', {
     params: {
       pageNum: data.pageNum,
       pageSize: data.pageSize,
       username: data.username,
       name: data.name,
+      // role: data.role,
     }
   }).then(res => {
     data.tableData = res.data?.list || []
@@ -147,7 +154,7 @@ const formSave = () => {
   formRef.value.validate((valid) => {
     if (valid) {
       request.request({
-        url: data.form.id ? '/student/updateStudentById' : '/student/addStudent',
+        url: data.form.id ? '/account/updateAccountById' : '/account/addAccount',
         method: data.form.id ? 'PUT' : 'POST',
         data: data.form
       }).then(res => {
@@ -168,7 +175,7 @@ const handleEdit = (row) => {
 }
 const handleDelete = (id) => {
   ElMessageBox.confirm('删除的数据无法恢复，您确定删除吗？','删除确认', {type:'warning'}).then(res => {
-    request.delete('/student/deleteStudentById/' + id).then(res => {
+    request.delete('/account/deleteAccountById/' + id).then(res => {
       if (res.code === '200'){
         ElMessage.success("操作成功")
         load()

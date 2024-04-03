@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface GradeMapper {
 
-    @Insert("insert into grade (id, courseId, studentId, score, comment, feedback) " +
-            "values (#{id}, #{courseId}, #{studentId}, #{score}, #{comment}, #{feedback})")
+    @Insert("insert into grade (id, courseId, accountId, score, comment, feedback) " +
+            "values (#{id}, #{courseId}, #{accountId}, #{score}, #{comment}, #{feedback})")
     void insert(Grade grade);
 
 //    @Select("select * from grade")
@@ -22,7 +22,7 @@ public interface GradeMapper {
     void update(Grade grade);
 
 
-    @Select("select * from grade where studentId = #{studentId} and courseId = #{courseId}")
+    @Select("select * from grade where accountId = #{accountId} and courseId = #{courseId}")
     Grade selectByCondition(Grade grade);
 
     @Delete("delete grade from grade where id = #{id}")

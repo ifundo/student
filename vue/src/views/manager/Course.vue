@@ -13,7 +13,12 @@
       </div>
         <div>
           <el-table :data="data.tableData" style="width: 100%">
-            <el-table-column prop="id" label="序号" width="80"/>
+<!--            <el-table-column prop="id" label="序号" width="80"/>-->
+            <el-table-column type="index" label="序号" width="80" align="center" >
+              <template v-slot="{ $index }">
+                {{ ($index + 1) + (data.pageNum - 1) * data.pageSize }}
+              </template>
+            </el-table-column>
             <el-table-column prop="name" label="课程名称"/>
             <el-table-column prop="no" label="课程编号"/>
             <el-table-column prop="descr" label="课程描述"/>

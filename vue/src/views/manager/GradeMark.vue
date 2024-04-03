@@ -2,16 +2,21 @@
   <div>
     <div class="card" style="margin-top: 10px; margin-bottom: 10px">
       <el-input style="width: 260px; margin-right: 10px" v-model="data.courseName" placeholder="请输入课程名称查询:" :prefix-icon="Search"/>
-      <el-input style="width: 260px; margin-right: 10px" v-model="data.studentName" placeholder="请输入学生名称查询:" :prefix-icon="Search"/>
+      <el-input style="width: 260px; margin-right: 10px" v-model="data.accountName" placeholder="请输入学生名称查询:" :prefix-icon="Search"/>
       <el-button type="primary" style="margin-left:10px" @click="load">查询</el-button>
       <el-button type="info" @click="reset">重置</el-button>
     </div>
     <div class="card" style="margin-top: 10px;">
       <div>
         <el-table :data="data.tableData" style="width: 100%">
-          <el-table-column prop="id" label="序号" width="80"/>
+<!--          <el-table-column prop="id" label="序号" width="80"/>-->
+          <el-table-column type="index" label="序号" width="80" align="center" >
+            <template v-slot="{ $index }">
+              {{ ($index + 1) + (data.pageNum - 1) * data.pageSize }}
+            </template>
+          </el-table-column>
           <el-table-column prop="courseName" label="课程名称"/>
-          <el-table-column prop="studentName" label="学生名称"/>
+          <el-table-column prop="accountName" label="学生名称"/>
           <el-table-column prop="score" label="课程分数"/>
           <el-table-column prop="comment" label="老师评语"/>
           <el-table-column prop="feedback" label="学生反馈"/>
@@ -19,7 +24,7 @@
             <template #default = "scope">
               <el-button type="danger" @click="handleDeleteGrade(scope.row.id)" v-if="data.user.role === 'ADMIN'">删 除</el-button>
               <el-button type="primary" @click="handleEditGrade(scope.row)" v-if="data.user.role === 'ADMIN'">编 辑</el-button>
-              <el-button type="primary" @click="setFeedback(scope.row)" v-if="data.user.role==='STUDENT'">反 馈</el-button>
+              <el-button type="primary" @click="setFeedback(scope.row)" v-if="data.user.role==='account'">反 馈</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -40,7 +45,7 @@
             <el-input v-model="data.form.courseName" autocomplete="off" disabled/>
           </el-form-item>
           <el-form-item label="学生名称">
-            <el-input v-model="data.form.studentName" autocomplete="off" disabled/>
+            <el-input v-model="data.form.accountName" autocomplete="off" disabled/>
           </el-form-item>
           <el-form-item label="课程评分" v-if="data.user.role === 'ADMIN'">
             <el-input v-model="data.form.score" autocomplete="off"/>
@@ -72,12 +77,12 @@ import {ElMessage, ElMessageBox} from "element-plus";
 
 const data = reactive({
   courseName: '',
-  studentName: '',
+  accountName: '',
   tableData: [],
   total: 0,
   pageNum: 1,   //每页个数
   pageSize: 3,  //当前页码
-  user: JSON.parse(localStorage.getItem('student-user') || {}),
+  user: JSON.parse(localStorage.getItem('account-user') || {}),
   form: {},
   feedbackFromVisable: false,
 })
@@ -86,10 +91,10 @@ const load = () =>{
     pageNum: data.pageNum,
     pageSize: data.pageSize,
     courseName: data.courseName,
-    studentName: data.studentName,
+    accountName: data.accountName,
   };
-  if (data.user.role === 'STUDENT') {
-    params.studentId = data.user.id;
+  if (data.user.role === 'account') {
+    params.accountId = data.user.id;
   }
   request.get('/grade/selectPage', { params: params }).then(res => {
     data.tableData = res.data?.list || []
@@ -105,7 +110,7 @@ const handleCurrentChange = () => {
 
 const reset = () => {
       data.courseName = '',
-      data.studentName='',
+      data.accountName='',
       load()
 }
 const handleDeleteGrade = (id) => {

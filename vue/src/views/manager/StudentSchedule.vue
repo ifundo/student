@@ -9,10 +9,15 @@
     <div class="card" style="margin-top: 10px;">
       <div>
         <el-table :data="data.tableData" style="width: 100%">
-          <el-table-column prop="id" label="序号" width="80"/>
+<!--          <el-table-column prop="id" label="序号" width="80"/>-->
+          <el-table-column type="index" label="序号" width="80" align="center" >
+            <template v-slot="{ $index }">
+              {{ ($index + 1) + (data.pageNum - 1) * data.pageSize }}
+            </template>
+          </el-table-column>
           <el-table-column prop="courseName" label="课程名称"/>
           <el-table-column prop="courseNo" label="课程编号"/>
-          <el-table-column prop="studentName" label="学生名称" v-if="data.user.role === 'ADMIN'"/>
+          <el-table-column prop="accountName" label="学生名称" v-if="data.user.role === 'ADMIN'"/>
           <el-table-column label="操 作" width="180px">
             <template #default = "scope">
               <el-button type="danger" @click="handleDeleteCourse(scope.row.courseId)">删 除</el-button>
@@ -37,7 +42,7 @@
             <el-input v-model="data.gradeForm.courseName" autocomplete="off" disabled/>
           </el-form-item>
           <el-form-item label="学生名称">
-            <el-input v-model="data.gradeForm.studentName" autocomplete="off" disabled/>
+            <el-input v-model="data.gradeForm.accountName" autocomplete="off" disabled/>
           </el-form-item>
           <el-form-item label="学生分数">
             <el-input v-model="data.gradeForm.score" autocomplete="off" />
@@ -70,8 +75,8 @@ const data = reactive({
   tableData: [],
   total: 0,
   pageNum: 1,   //每页个数
-  pageSize: 3,  //当前页码
-  user: JSON.parse(localStorage.getItem('student-user') || {}),
+  pageSize: 8,  //当前页码
+  user: JSON.parse(localStorage.getItem('account-user') || {}),
   gradeForm: {},
   gradeFormVisible: false,
 })
@@ -82,8 +87,8 @@ const load = () =>{
     courseName: data.name,
     courseNo: data.no,
   };
-  if (data.user.role === 'STUDENT') {
-    params.studentId = data.user.id;
+  if (data.user.role === 'account') {
+    params.accountId = data.user.id;
   }
   request.get('/selectcourse/selectPage', { params }).then(res => {
     data.tableData = res.data?.list || []
@@ -124,8 +129,8 @@ const handleMarkCourse = (row) =>{
   // data.gradeForm.
   data.gradeFormVisible = true
   data.gradeForm.courseName = row.courseName
-  data.gradeForm.studentName = row.studentName
-  data.gradeForm.studentId = row.studentId
+  data.gradeForm.accountName = row.accountName
+  data.gradeForm.accountId = row.accountId
   data.gradeForm.courseId = row.courseId;
 }
 

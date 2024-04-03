@@ -85,9 +85,9 @@
 <script setup>
 import { useRoute } from 'vue-router'
 const $route = useRoute()
-const user = JSON.parse(localStorage.getItem('student-user') || '{}')
+const user = JSON.parse(localStorage.getItem('account-user') || '{}')
 const logout = () => {
-  localStorage.removeItem('student-user')
+  localStorage.removeItem('account-user')
 }
 </script>
 

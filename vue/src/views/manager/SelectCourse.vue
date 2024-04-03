@@ -10,7 +10,12 @@
     <div class="card" style="margin-top: 10px;">
       <div>
         <el-table :data="data.tableData" style="width: 100%">
-          <el-table-column prop="id" label="序号" width="80"/>
+<!--          <el-table-column prop="id" label="序号" width="80"/>-->
+          <el-table-column type="index" label="序号" width="80" align="center" >
+            <template v-slot="{ $index }">
+              {{ ($index + 1) + (data.pageNum - 1) * data.pageSize }}
+            </template>
+          </el-table-column>
           <el-table-column prop="name" label="课程名称"/>
           <el-table-column prop="no" label="课程编号"/>
           <el-table-column prop="descr" label="课程描述"/>
@@ -50,9 +55,9 @@ const data = reactive({
   teacher: '',
   tableData: [],
   total: 0,
-  pageNum: 1,   //每页个数
-  pageSize: 3,  //当前页码
-  user: JSON.parse(localStorage.getItem('student-user') || {}),
+  pageNum: 1,   //当前页码
+  pageSize: 8,  //每页个数
+  user: JSON.parse(localStorage.getItem('account-user') || {}),
 })
 const load = () =>{
   request.get('/course/selectPage', {
@@ -84,7 +89,7 @@ const reset = () => {
 }
 const selectCourse = (row) => {
   request.post('/selectcourse/add', {
-    studentId: data.user.id,
+    accountId: data.user.id,
     courseName: row.name,
     courseNo: row.no,
     courseId: row.id

@@ -3,26 +3,26 @@ package com.example.entity;
 public class Grade {
     private int id;
     private String courseId;
-    private String studentId;
+    private String accountId;
     private double score;
     private String comment;
     private String feedback;
 
     private String courseName;
 
-    private String studentName;
+    private String accountName;
 
     @Override
     public String toString() {
         return "Grade{" +
                 "id=" + id +
                 ", courseId='" + courseId + '\'' +
-                ", studentId='" + studentId + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", score=" + score +
                 ", comment='" + comment + '\'' +
                 ", feedback='" + feedback + '\'' +
                 ", courseName='" + courseName + '\'' +
-                ", studentName='" + studentName + '\'' +
+                ", accountName='" + accountName + '\'' +
                 '}';
     }
 
@@ -34,12 +34,12 @@ public class Grade {
         this.courseName = courseName;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public int getId() {
@@ -58,12 +58,12 @@ public class Grade {
         this.courseId = courseId;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public double getScore() {

@@ -4,17 +4,17 @@ public class SelectCourse {
     private Integer id;
     private String courseName;
     private String courseNo;
-    private String studentId;
+    private String accountId;
     private String courseId;
 
-    private String studentName;
+    private String accountName;
 
-    public String getStudentName() {
-        return studentName;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class SelectCourse {
                 "id=" + id +
                 ", courseName='" + courseName + '\'' +
                 ", courseNo='" + courseNo + '\'' +
-                ", studentId='" + studentId + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", courseId='" + courseId + '\'' +
                 '}';
     }
@@ -52,12 +52,12 @@ public class SelectCourse {
         this.courseNo = courseNo;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getCourseId() {

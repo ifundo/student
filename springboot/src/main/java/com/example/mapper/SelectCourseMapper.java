@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface SelectCourseMapper {
 
-    @Insert("insert into selectcourse (courseName, courseNo, studentId, courseId) " +
-            "values (#{courseName}, #{courseNo}, #{studentId}, #{courseId})")
+    @Insert("insert into selectcourse (courseName, courseNo, accountId, courseId) " +
+            "values (#{courseName}, #{courseNo}, #{accountId}, #{courseId})")
     void insert(SelectCourse selectCourse);
 
-    @Select("select * from selectcourse where studentId = #{studentId} and courseId = #{courseId}")
+    @Select("select * from selectcourse where accountId = #{accountId} and courseId = #{courseId}")
     SelectCourse selectById(SelectCourse selectCourse);
 
-//    @Select("select * from selectcourse where courseName like concat('%', #{courseName}, '%') and courseNo like concat('%', #{courseNo}, '%') and studentId = #{studentId}")
+//    @Select("select * from selectcourse where courseName like concat('%', #{courseName}, '%') and courseNo like concat('%', #{courseNo}, '%') and accountId = #{accountId}")
     List<SelectCourse> selectAll(SelectCourse selectCourse);
 
     @Delete("delete from selectcourse where courseId = #{courseId}")

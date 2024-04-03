@@ -47,7 +47,7 @@ import router from "@/router";
 import {Plus} from "@element-plus/icons-vue";
 
 const data = reactive({
-  form: JSON.parse(localStorage.getItem('student-user') || "{}"),
+  form: JSON.parse(localStorage.getItem('account-user') || "{}"),
 })
 
 const rules = reactive({
@@ -68,12 +68,24 @@ const handleImgUploadSuccess = (res) => {
 const updatePerson = () => {
   formRef.value.validate((valid) => {
     if (valid){
-      request.put("/student/updateStudentById", data.form).then(res => {
+      request.put("/account/updateAccountById", data.form).then(res => {
         if (res.code === '200'){
-          ElMessage.success("操作成功")
-          router.push('/login')
+          request.get("/account/selectAccount", {
+            params: {
+              username: data.form.username,
+              role: data.form.role
+            }
+          }).then(res2 => {
+            if (res2.code === '200'){
+              localStorage.setItem('account-user', JSON.stringify(res2.data))
+              ElMessage.success("操作成功")
+            }else {
+              ElMessage.error(res2.msg)
+            }
+          })
+          router.push('/person')
         }else {
-          ElMessage.error("res.msg")
+          ElMessage.error(res.msg)
         }
       })
     }
